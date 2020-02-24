@@ -187,7 +187,7 @@ export default function TableC(props) {
                             <StyledTableCell id="cell" align="right">{Number(row.price)}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.shipping}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.comment || "لا يوجد تعليق"}</StyledTableCell>
-                            <StyledTableCell id="cell" align="right">{row.far2Sha7n || "0"}</StyledTableCell>
+                            <StyledTableCell id="cell" align="right">{row.far2Sha7n}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{
                                 row.state === 1 ? "شحن علي الراسل" : row.state === 2 ? "لاغي"
                                     : row.state === 3 ? "تم التوصيل"

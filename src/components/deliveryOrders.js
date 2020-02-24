@@ -75,6 +75,7 @@ export default function CustomizedTables() {
     const [comment, setcomment] = useState("")
     const [far2sha7n, setfar2sha7n] = useState(0)
     const [total, settotal] = useState(0)
+    const [teet, setTeet] = useState(0)
     const [selectValue, setseletvalue] = useState(0)
     useEffect(() => {
 
@@ -90,6 +91,7 @@ export default function CustomizedTables() {
                     let data = doc.data()
                     data[btnSS] = false
                     data["ID"] = doc.id
+                    setfar2sha7n(doc.data().far2Sha7n)
                     orders.push(data);
                     tot += +(doc.data().price)
                     tot += +(doc.data().shipping)
@@ -351,9 +353,11 @@ export default function CustomizedTables() {
                                         <form onSubmit={(e) => handleChange12(row, e)} id="ddss">
                                             <TextField id="outlined-basic4" label="تعليق" variant="outlined" name="comment" />
                                             {+(row.far2Sha7n) !== 0
-                                                ? <TextField InputProps={{ readOnly: true, }} id="outlined-basic4" variant="outlined" type="number" label="فرق شحن" name="far2Sha7n" value={row.far2Sha7n} required />
+                                                ? < TextField InputProps={{ readOnly: true, }} id="outlined-basic4" variant="outlined" type="number" label="فرق شحن" name="far2Sha7n" value={row.far2Sha7n} required />
                                                 : <TextField id="outlined-basic4" type="number" variant="outlined" label="فرق شحن" name="far2Sha7n" onChange={handelFar2Sha7n} />
                                             }
+
+
 
                                             <Select disabled={row.btnState}
                                                 labelId="demo-simple-select-outlined-label"

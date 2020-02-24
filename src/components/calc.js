@@ -43,8 +43,8 @@ class Calc extends React.Component {
             .catch(error => console.log(error));
 
         db.collection('orders').where('state', '>', -1)
-            .get()
-            .then(snapshot => {
+
+            .onSnapshot(snapshot => {
                 const orders = [];
                 const IDDS = [];
 
@@ -65,7 +65,7 @@ class Calc extends React.Component {
                     IDDS: IDDS
                 });
             })
-            .catch(error => console.log(error));
+
         const filteredOrders = this.state.order.filter(order => {
             return (order.client === this.state.client)
         })

@@ -1,0 +1,97 @@
+select
+{
+    width: 50%;
+    height: 40px;
+    margin: 0 auto;
+    margin-top:30px ;
+    margin-bottom:30px ;
+    display: flex;
+    justify-content: center;
+    font-family: 'El Messiri', gilroy ;
+    background-color: rgb(255, 157, 92);
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+}
+#btnorder{
+    margin: 20px;
+    background-color: rgb(224, 129, 66);
+    padding: 15px;
+    color: white;
+    font-family: 'El Messiri', gilroy ;
+    top: -10px;
+}
+#btnorder2{
+    margin: 20px;
+    background-color: rgb(224, 129, 66);
+    padding: 15px;
+    color: white;
+    font-family: 'El Messiri', gilroy ;
+    top: -20px;
+}
+
+#cont{
+    background-color: rgb(255, 246, 197);
+    margin-bottom: 50px;
+    border-radius: 10px;
+    padding-top: 30px;
+    text-align: center;
+    
+}
+#contdate{
+    background-color: rgb(255, 246, 197);
+    margin-bottom: 50px;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 20%;
+}
+#contsearch{
+    margin-bottom: 50px;
+    margin-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 20%
+}
+#contselect{
+    background-color: rgb(204, 193, 130);
+    margin-bottom: 50px;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 20%;
+    padding-bottom: 15px;
+    padding-left: 10px;
+
+}
+#contcell{
+    text-align: center;
+    padding-top: 15px;
+}
+.Navbar {
+    width : 100%;
+    background:  rgb(39, 40, 56);
+    text-align: center;
+    padding: 0;  
+    margin: 0;
+}
+
+.Navbar img {
+    width: 200px;
+  
+}
+
+#add2{
+    text-align: center;
+    background-color: rgb(255, 246, 197);
+    margin-bottom: 5px;
+    border-radius: 10px;
+    padding-top: 30px;
+}
+
+
+/* el form bta3t el delivery */
+
+#add0{
+    text-align: center;
+}

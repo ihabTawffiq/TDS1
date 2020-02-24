@@ -1,0 +1,23 @@
+#nav{
+    background-color: rgb(66, 71, 97);
+margin: 0;
+padding: 0;
+}
+#tab{
+    color: white;
+    font-family: 'El Messiri', gilroy ;
+    font-size: large;
+
+}
+
+
+.active {
+    background-color: rgb(177, 187, 176);
+    color: rgb(44, 44, 61);
+}
+.nav-link_IT
+{
+    text-decoration: none;
+    font-size: 2.9rem;
+    color: darkblue;
+}

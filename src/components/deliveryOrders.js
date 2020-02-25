@@ -76,6 +76,7 @@ export default function CustomizedTables() {
     const [far2sha7n, setfar2sha7n] = useState(0)
     const [total, settotal] = useState(0)
     const [teet, setTeet] = useState(0)
+    const [modID, setModID] = useState(0)
     const [selectValue, setseletvalue] = useState(0)
     useEffect(() => {
 
@@ -90,8 +91,9 @@ export default function CustomizedTables() {
                 querySnapshot.forEach(function (doc) {
                     let data = doc.data()
                     data[btnSS] = false
+                    data["done"] = false
                     data["ID"] = doc.id
-                    setfar2sha7n(doc.data().far2Sha7n)
+
                     orders.push(data);
                     tot += +(doc.data().price)
                     tot += +(doc.data().shipping)
@@ -199,7 +201,7 @@ export default function CustomizedTables() {
 
     function handleChange12(row, event) {
         const form = document.querySelector('#ddss');
-
+        row.done = true
         setcomment(form.comment.value)
 
         if (selectValue !== 0) {
@@ -208,29 +210,39 @@ export default function CustomizedTables() {
             row.btnState = true
             let tot1 = total
             if (selectValue === 1) {
-
-                tot1 -= far2sha7n
+                if (row.order_id === modID) {
+                    tot1 -= far2sha7n
+                }
 
                 tot1 -= +(row.far2Sha7n)
                 tot1 -= +(row.shipping)
 
             } else if (selectValue === 2) {
 
-                tot1 -= far2sha7n
+
+                if (row.order_id === modID) {
+                    tot1 -= far2sha7n
+                }
 
                 tot1 -= +(row.far2Sha7n)
                 tot1 -= +(row.price)
                 tot1 -= +(row.shipping)
             } else if (selectValue === 3) {
 
-                tot1 -= far2sha7n
+
+                if (row.order_id === modID) {
+                    tot1 -= far2sha7n
+                }
 
                 tot1 -= +(row.far2Sha7n)
 
                 tot1 -= +(0)
             } else if (selectValue === 4) {
 
-                tot1 -= far2sha7n
+
+                if (row.order_id === modID) {
+                    tot1 -= far2sha7n
+                }
 
                 tot1 -= +(row.far2Sha7n)
                 tot1 -= +(row.price)
@@ -240,15 +252,19 @@ export default function CustomizedTables() {
                 .onSnapshot(function (querySnapshot) {
                     querySnapshot.forEach(function (doc) {
                         if (doc.data().order_id === row.order_id) {
+
                             db.collection('orders').doc(doc.id).update({
                                 state: selectValue,
                                 comment: comment,
                                 far2Sha7n: far2sha7n
                             })
+
                         }
                     });
 
                 })
+
+
         }
         else {
 
@@ -264,6 +280,7 @@ export default function CustomizedTables() {
 
         }
 
+
     };
     function handelSelecctkhara(e) {
         setseletvalue(e.target.value)
@@ -272,10 +289,10 @@ export default function CustomizedTables() {
     function handelBtn(e) {
         e.preventDefault();
     }
-    function handelFar2Sha7n(event) {
+    function handelFar2Sha7n(row, event) {
 
         setfar2sha7n(event.target.value)
-
+        setModID(row.order_id)
     }
 
     const classes = useStyles();
@@ -354,7 +371,7 @@ export default function CustomizedTables() {
                                             <TextField id="outlined-basic4" label="تعليق" variant="outlined" name="comment" />
                                             {+(row.far2Sha7n) !== 0
                                                 ? < TextField InputProps={{ readOnly: true, }} id="outlined-basic4" variant="outlined" type="number" label="فرق شحن" name="far2Sha7n" value={row.far2Sha7n} required />
-                                                : <TextField id="outlined-basic4" type="number" variant="outlined" label="فرق شحن" name="far2Sha7n" onChange={handelFar2Sha7n} />
+                                                : <TextField id="outlined-basic4" type="number" variant="outlined" label="فرق شحن" name="far2Sha7n" onChange={(e) => handelFar2Sha7n(row, e)} />
                                             }
 
 
@@ -400,9 +417,9 @@ export default function CustomizedTables() {
                                         onClick={(e) =>handleChange(row,e)} >
                                         done             
                                     </Button> */}
-                                            <Button id="btndone" variant="contained" color="primary" onClick={(e) => handleChange12(row, e)}>
+                                            <Button id="btndone" variant="contained" color="primary" disabled={row.done} onClick={(e) => handleChange12(row, e)}>
                                                 تم
-                                        </Button>
+                                            </Button>
 
 
                                         </form>

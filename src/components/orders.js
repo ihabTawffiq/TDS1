@@ -249,7 +249,7 @@ class Order extends React.Component {
           <option value="">{this.state.client}</option>
           {this.state.clients.map(cl => <option value={cl.name}>{cl.name}</option>)}
         </select>
-      <h1>الدفعات الحالية ل{this.state.client === "اختار عميل" ? "..." : this.state.client} : {this.state.dof3a}</h1>
+        <h1>الدفعات الحالية ل{this.state.client === "اختار عميل" ? "..." : this.state.client} : {this.state.dof3a}</h1>
         <form id="add2" onSubmit={this.addDof3a}>
           {console.log(this.state.dof3a)}
           <TextField
@@ -261,27 +261,27 @@ class Order extends React.Component {
             }}
             variant="outlined"
             name="dof3a"
-          />           
+          />
 
           <Button id="btnorder2" variant="contained" color="primary" onClick={this.addDof3a} disabled={this.state.btnState}>
             إضافة دفعة
           </Button>
         </form>
 
-            <h1>  إضافة أوردر جديد </h1>
-          <Container id="cont">
-        <form id="add3" onSubmit={this.addOrder} key={Math.random()}>
-          <TextField className={classes.root} InputProps={{ readOnly: true, }} id="outlined-basic2" variant="outlined" label="ID" name="order_id" value={this.state.order_id + 1} required />
-          <TextField className={classes.root} id="outlined-basic2" label="السعر" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="price" required />
-          <TextField className={classes.root} id="outlined-number" label="سعر الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="shipping" required />
-          <TextField className={classes.root} id="outlined-basic2" defaultValue="0" label="فرق الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="far2Sha7n" required />
-          <TextField className={classes.root} id="outlined-basic2" label="الموبايل" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="mobile" required />
-          <TextField className={classes.root} id="outlined-basic2" label="العنوان" variant="outlined" name="adress" required />
-          <TextField className={classes.root} id="outlined-basic2" label="اسم العميل" variant="outlined" name="clientName" required />
-          <Button variant="contained" id="btnorder" onClick={this.addOrder}>
-            أضف
+        <h1>  إضافة أوردر جديد </h1>
+        <Container id="cont">
+          <form id="add3" onSubmit={this.addOrder} key={Math.random()}>
+            <TextField className={classes.root} InputProps={{ readOnly: true, }} id="outlined-basic2" variant="outlined" label="ID" name="order_id" value={this.state.order_id + 1} required />
+            <TextField className={classes.root} id="outlined-basic2" label="السعر" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="price" required />
+            <TextField className={classes.root} id="outlined-number" label="سعر الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="shipping" required />
+            <TextField className={classes.root} id="outlined-basic2" defaultValue="0" label="فرق الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="far2Sha7n" required />
+            <TextField className={classes.root} id="outlined-basic2" label="الموبايل" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="mobile" required />
+            <TextField className={classes.root} id="outlined-basic2" label="العنوان" variant="outlined" name="adress" required />
+            <TextField className={classes.root} id="outlined-basic2" label="اسم العميل" variant="outlined" name="clientName" required />
+            <Button variant="contained" id="btnorder" onClick={this.addOrder}>
+              أضف
           </Button>
-        </form>
+          </form>
         </Container>
         <Table orders={this.state.order} dof3at={this.state.dof3at} />
 

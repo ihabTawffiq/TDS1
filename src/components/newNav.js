@@ -10,9 +10,12 @@ import { NavLink } from 'react-router-dom';
 import logo from '../style/logo.png';
 import Container from '@material-ui/core/Container';
 import '../style/base.css';
+<<<<<<< HEAD
 import firebase from '../services/firebase';
 import Button from '@material-ui/core/Button';
 import swal from "sweetalert";
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
 
 function TabPanel(props) {
@@ -56,6 +59,7 @@ export default function ScrollableTabsButtonAuto() {
     setValue(newValue);
   };
 
+<<<<<<< HEAD
   const handleLogout=()=>{
    
  }
@@ -97,6 +101,13 @@ export default function ScrollableTabsButtonAuto() {
                                            </Button>
       </nav>
       
+=======
+  return (
+    <div className={classes.root}>
+      <nav className="Navbar" id="contlogo" >
+        <img src={logo} alt="logo.png" />
+      </nav>
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
       <AppBar position="static" id="nav">
 
         <Tabs

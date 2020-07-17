@@ -127,8 +127,13 @@ export default function CustomizedTables() {
     const handelAdd = (ID, e) => {
         e.preventDefault();
         if (delivery === 'E5tar mandob') {
+<<<<<<< HEAD
             swal("اختار المندوب ياااا", "...", "error");
             } else {
+=======
+            console.log("matnsash el style ya OSOS")
+        } else {
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
 
             db.collection("orders").where("state", "==", -1)

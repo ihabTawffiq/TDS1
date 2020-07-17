@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
+<<<<<<< HEAD
 // import { Route, BrowserRouter } from 'react-router-dom';
 // import Client from './components/clients';
 // import Delivery from './components/delivery';
@@ -15,6 +16,23 @@ import { Component } from 'react';
  import Home from './components/Home';
  import firebase from './services/firebase'
 
+=======
+import { Route, BrowserRouter } from 'react-router-dom';
+import Client from './components/clients';
+import Delivery from './components/delivery';
+import Order from './components/orders';
+import Nav from './components/newNav';
+import FilterBy from './components/filterby';
+import FilterByClient from './components/filterbyclient';
+import Search from './components/search';
+import ChooseDelivert from './components/addorderfordelivery';
+import DeliveryOrders from './components/deliveryOrders';
+import clientProfile from './components/selectClient';
+import Calc from './components/calc';
+import Discarded from './components/discarded'
+import calcCards from './components/calc-cards'
+import moreOrders from './components/more-orders'
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 import './style/base.css';
 import Login from './components/login'
 
@@ -50,6 +68,7 @@ class App extends Component {
 
   render() {
     return (
+<<<<<<< HEAD
 
       
       
@@ -77,6 +96,36 @@ class App extends Component {
 
       //   </div>
       // </BrowserRouter>
+=======
+      // <div>
+      //   <Order/>
+      //   <Calc/>
+
+      // </div>
+
+      <BrowserRouter>
+        <div>
+
+          <Nav />
+          <Route exact path='/' component={Client} />
+          <Route exact path='/Delivery' component={Delivery} />
+          <Route exact path='/Order' component={Order} />
+          <Route exact path='/FilterBy' component={FilterBy} />
+          <Route exact path='/FilterByClient' component={FilterByClient} />
+          <Route exact path='/Search' component={Search} />
+          <Route exact path='/ChooseDelivert' component={ChooseDelivert} />
+          <Route exact path='/DeliveryOrders' component={DeliveryOrders} />
+          <Route exact path='/clientProfile' component={clientProfile} />
+          <Route exact path='/Calc' component={Calc} />
+          <Route exact path='/Discarded' component={Discarded} />
+          <Route exact path='/CalcCards' component={calcCards} />
+          <Route exact path='/moreOrders' component={moreOrders} />
+
+
+
+        </div>
+      </BrowserRouter>
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
     );
   }
 }

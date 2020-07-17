@@ -17,7 +17,10 @@ import Tab from '@material-ui/core/Tab';
 import '../style/base.css';
 import { NavLink } from 'react-router-dom';
 import { set } from 'date-fns';
+<<<<<<< HEAD
 import { Container } from '@material-ui/core';
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 const useStyles = makeStyles({
     root: {
         margin: "0 auto",
@@ -38,9 +41,12 @@ const useStyles = makeStyles({
     },
     FormControl: {
         margin: "0 auto"
+<<<<<<< HEAD
     },
     selectEmpty :{
         minWidth: 200,
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
     }
 });
 export default function SimpleCard() {
@@ -96,8 +102,13 @@ export default function SimpleCard() {
 
 
     return (
+<<<<<<< HEAD
         <div>
             <Container id="contselect" >
+=======
+        <div className="card-container">
+
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
             <FormControl required className={classes.formControl} className='select-card'>
                 <InputLabel id="demo-simple-select-required-label">اختار المندوب</InputLabel>
                 <Select
@@ -114,15 +125,19 @@ export default function SimpleCard() {
                 </Select>
 
             </FormControl>
+<<<<<<< HEAD
 
             </Container>
             <Container  className="card-container" >
 
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
             {cards.map(card => {
                 return (
                     <Card className={classes.root} className="card-boody" >
                         <CardContent>
                             <Typography variant="h5" component="h2">
+<<<<<<< HEAD
                                 <h3> {clientname} </h3>
 
                             </Typography>
@@ -132,6 +147,17 @@ export default function SimpleCard() {
 
                             <Typography variant="body2" component="p">
                                 <h4> {" اجمالي الحساب : " + card.total}</h4>
+=======
+                                <h1> {clientname} </h1>
+
+                            </Typography>
+                            <Typography variant="h5" component="h2" className={classes.title} color="textSecondary" gutterBottom>
+                                <h2> {moment(card.day).format('LL')}</h2>
+                            </Typography>
+
+                            <Typography variant="body2" component="p">
+                                <h2> {" اجمالي الحساب : " + card.total}</h2>
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
                             </Typography>
                         </CardContent>
@@ -140,7 +166,10 @@ export default function SimpleCard() {
 
                     </Card>)
             })}
+<<<<<<< HEAD
             </Container>
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
         </div >
     );
 }

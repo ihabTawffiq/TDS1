@@ -13,6 +13,7 @@ select
     border-radius: 3px;
     text-align: center;
 }
+<<<<<<< HEAD
 .ihabselect{
     width: 50%;
     height: 40px;
@@ -28,6 +29,8 @@ select
     text-align: center;
 
 }
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 #btnorder{
     margin: 20px;
     background-color: rgb(224, 129, 66);
@@ -86,7 +89,11 @@ select
 .Navbar {
     width : 100%;
     background:  rgb(39, 40, 56);
+<<<<<<< HEAD
     text-align: left;
+=======
+    text-align: center;
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
     padding: 0;  
     margin: 0;
 }

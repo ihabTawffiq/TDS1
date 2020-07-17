@@ -59,7 +59,11 @@ export default class Search extends React.Component {
 
                 </Container>
 
+<<<<<<< HEAD
                 <Table delete={false} orders={this.state.filteredOrders}  />
+=======
+                <Table orders={this.state.filteredOrders} />
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
             </div>
         )
     }

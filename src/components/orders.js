@@ -319,7 +319,11 @@ class Order extends React.Component {
           </Button>
           </form>
         </Container>
+<<<<<<< HEAD
         <Table orders={this.state.order} delete={true} dof3at={this.state.dof3at} />
+=======
+        <Table orders={this.state.order} dof3at={this.state.dof3at} />
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
       </div >
     )

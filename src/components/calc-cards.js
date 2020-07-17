@@ -9,8 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import { db } from '../services/firebase';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+<<<<<<< HEAD
 import Container from '@material-ui/core/Container';
 
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from "moment";
@@ -38,12 +41,17 @@ const useStyles = makeStyles({
         marginBottom: 12,
     },
     FormControl: {
+<<<<<<< HEAD
         margin: "0 auto",
         minWidth: 200,
     },  
     selectEmpty: {
         minWidth: 200,
     },
+=======
+        margin: "0 auto"
+    }
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 });
 export default function SimpleCard() {
     const classes = useStyles();
@@ -103,10 +111,16 @@ export default function SimpleCard() {
 
 
     return (
+<<<<<<< HEAD
         <div >
             <Container id="contselect" >
             <FormControl required className={classes.formControl}>
 
+=======
+        <div className="card-container">
+
+            <FormControl required className={classes.formControl} className='select-card'>
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
                 <InputLabel id="demo-simple-select-required-label">اختار المندوب</InputLabel>
                 <Select
                     labelId="demo-simple-select-required-label"
@@ -120,16 +134,22 @@ export default function SimpleCard() {
 
 
                 </Select>
+<<<<<<< HEAD
             </FormControl>
 
             </Container>
             <Container className="card-container">
 
+=======
+
+            </FormControl>
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
             {cards.map(card => {
                 return (
                     <Card className={classes.root} className="card-boody" >
                         <CardContent>
                             <Typography variant="h5" component="h2">
+<<<<<<< HEAD
                                 <h3> {card.client} </h3>
 
                             </Typography>
@@ -141,6 +161,19 @@ export default function SimpleCard() {
                             </Typography>
                             <Typography variant="body2" component="p">
                                 <h4> {" اجمالي الحساب : " + card.total}</h4>
+=======
+                                <h1> {card.client} </h1>
+
+                            </Typography>
+                            <Typography variant="h5" component="h2" className={classes.title} color="textSecondary" gutterBottom>
+                                <h2> {moment(card.day).format('LL')}</h2>
+                            </Typography>
+                            <Typography className={classes.pos} color="textSecondary">
+                                <h2> {" عدد الاوردارات : " + card.orders.length} </h2>
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                                <h2> {" اجمالي الحساب : " + card.total}</h2>
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
                             </Typography>
                         </CardContent>
@@ -149,8 +182,11 @@ export default function SimpleCard() {
 
                     </Card>)
             })}
+<<<<<<< HEAD
             </Container>
 
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
         </div >
     );
 }

@@ -26,6 +26,7 @@ h1{
     background-color: rgb(224, 129, 66) !important;
     color: white !important;
     font-family: 'El Messiri', gilroy !important ;
+<<<<<<< HEAD
     width: 120px;
     height:50px;
     top:10px
@@ -35,6 +36,12 @@ h1{
 h3 ,h4{
     font-family: 'El Messiri'
 }
+=======
+    
+}
+
+
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
 /* table style */
 .card-container{
@@ -45,6 +52,7 @@ h3 ,h4{
 }
 .card-boody
 {
+<<<<<<< HEAD
     border: 2px;
     border-radius: 4px;
     padding: .5rem;
@@ -59,6 +67,20 @@ h3 ,h4{
 }
 
 
+=======
+    border: 2px solid #e7e7e7;
+    border-radius: 4px;
+    padding: .5rem;
+    text-align: center;
+}
+.select-card
+{
+
+    grid-column-start: 1;
+    grid-column-end: 4;
+   background-color: rgb(224, 129, 66);
+}
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 .more{
     margin: 0 auto;
 }

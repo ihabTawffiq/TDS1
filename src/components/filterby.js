@@ -86,7 +86,11 @@ class FilterBy extends React.Component {
             <div>
 
                 <h1>بحث عن الاوردرات بالتاريخ</h1>
+<<<<<<< HEAD
                 <DateSelector delete={false}  orders={this.state.order} />
+=======
+                <DateSelector orders={this.state.order} />
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
                 <br />
                 <br />
                 <br />
@@ -102,7 +106,11 @@ class FilterBy extends React.Component {
                         بحث
                     </Button>
                 </center>
+<<<<<<< HEAD
                 <DateSelector delete={false}  orders={this.state.filteredOrders} />
+=======
+                <DateSelector orders={this.state.filteredOrders} />
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
             </div >
         )
     }

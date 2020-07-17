@@ -45,7 +45,10 @@ const useStyles = makeStyles({
 export default function CustomizedTables(props) {
     const rows = props.orders
     const classes = useStyles();
+<<<<<<< HEAD
     const deleteOrder = props.delete;
+=======
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
 
     return (
         <TableContainer component={Paper}>
@@ -110,7 +113,11 @@ export default function CustomizedTables(props) {
 
                                     }
                                 }
+<<<<<<< HEAD
                                 variant="contained" id="btn" disabled={!deleteOrder} startIcon={<DeleteIcon align="center" />}> Delete
+=======
+                                variant="contained" id="btn" startIcon={<DeleteIcon align="center" />}> Delete
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
                            </Button> </StyledTableCell>
 
                         </StyledTableRow>

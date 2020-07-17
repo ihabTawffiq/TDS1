@@ -252,12 +252,19 @@ export default function CustomizedTables() {
     function handleChange12(row, event) {
 
         const form = document.querySelector('#ddss');
+<<<<<<< HEAD
       
         row.done = true
         const comment21 = row.order_id.toString() + "comment"
         const comment222 = document.getElementById(comment21).value 
         setcomment(comment222)
         console.log('lolo',comment222 );
+=======
+        row.done = true
+        const comment21 = row.order_id.toString() + "comment"
+        const comment222 = document.getElementById(comment21).value | ""
+        setcomment(comment222)
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
         let old_price = row.price
         let mortaga3_price = 0
         let price_temp = 0
@@ -385,7 +392,11 @@ export default function CustomizedTables() {
             updateOrderFunction({
                 idtt: row.order_id,
                 state: selectValue,
+<<<<<<< HEAD
                 comment: comment222.toString(),
+=======
+                comment: comment222,
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
                 far2Sha7n: far2sha7ntet22 | 0,
                 price: +price_temp,//price_mor
                 old_price: +old_price,
@@ -541,7 +552,11 @@ export default function CustomizedTables() {
 
 
                                         <form onSubmit={(e) => handleChange12(row, e)} id="ddss">
+<<<<<<< HEAD
                                             <TextField className="outlined-basic4" id={row.order_id.toString() + "comment"} label="تعليق" variant="outlined" name={row.order_id.toString() + "comment"} type="text" />
+=======
+                                            <TextField className="outlined-basic4" id={row.order_id.toString() + "comment"} label="تعليق" variant="outlined" name={row.order_id.toString() + "comment"} />
+>>>>>>> 47376ffc458fe4e2fab127daa1c6300adbb09b14
                                             <TextField className="outlined-basic4" id={row.order_id.toString() + "goz2ii"} label="السعر" variant="outlined" name={row.order_id.toString() + "goz2ii"} type="number" />
                                             {+(row.far2Sha7n) !== 0
                                                 ? < TextField className="outlined-basic4" InputProps={{ readOnly: true, }} id="outlined-basic4" variant="outlined" type="number" label="فرق شحن" name="far2Sha7n" value={row.far2Sha7n} required />

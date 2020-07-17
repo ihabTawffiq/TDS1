@@ -45,6 +45,7 @@ const useStyles = makeStyles({
 export default function CustomizedTables(props) {
     const rows = props.orders
     const classes = useStyles();
+    const deleteOrder = props.delete;
 
     return (
         <TableContainer component={Paper}>
@@ -72,7 +73,7 @@ export default function CustomizedTables(props) {
                                 {row.order_id}
                             </StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.client}</StyledTableCell>
-                            <StyledTableCell id="cell" align="right">{moment(row.date.toDate()).format('l')}</StyledTableCell>
+                            <StyledTableCell id="cell" align="right">{moment(row.date.toDate()).format('LL')}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.price}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.shipping}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.far2Sha7n || "0"}</StyledTableCell>
@@ -109,7 +110,7 @@ export default function CustomizedTables(props) {
 
                                     }
                                 }
-                                variant="contained" id="btn" startIcon={<DeleteIcon align="center" />}> Delete
+                                variant="contained" id="btn" disabled={!deleteOrder} startIcon={<DeleteIcon align="center" />}> Delete
                            </Button> </StyledTableCell>
 
                         </StyledTableRow>

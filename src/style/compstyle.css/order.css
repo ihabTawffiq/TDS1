@@ -13,6 +13,21 @@ select
     border-radius: 3px;
     text-align: center;
 }
+.ihabselect{
+    width: 50%;
+    height: 40px;
+    margin: 0 auto;
+    margin-top:30px ;
+    margin-bottom:30px ;
+    display: flex;
+    justify-content: center;
+    font-family: 'El Messiri', gilroy ;
+    background-color: rgb(255, 157, 92);
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+
+}
 #btnorder{
     margin: 20px;
     background-color: rgb(224, 129, 66);
@@ -71,7 +86,7 @@ select
 .Navbar {
     width : 100%;
     background:  rgb(39, 40, 56);
-    text-align: center;
+    text-align: left;
     padding: 0;  
     margin: 0;
 }
@@ -94,4 +109,8 @@ select
 
 #add0{
     text-align: center;
+}
+
+#outlined-basic7{
+    display: none;
 }

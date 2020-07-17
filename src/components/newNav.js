@@ -10,6 +10,9 @@ import { NavLink } from 'react-router-dom';
 import logo from '../style/logo.png';
 import Container from '@material-ui/core/Container';
 import '../style/base.css';
+import firebase from '../services/firebase';
+import Button from '@material-ui/core/Button';
+import swal from "sweetalert";
 
 
 function TabPanel(props) {
@@ -53,13 +56,49 @@ export default function ScrollableTabsButtonAuto() {
     setValue(newValue);
   };
 
+  const handleLogout=()=>{
+   
+ }
+
+
   return (
     <div className={classes.root}>
-         <nav className="Navbar"id="contlogo" >
-                <img src={logo} alt="logo.png"/>
-          </nav>
-      <AppBar position="static" id="nav">
       
+      <nav className="Navbar"  >
+        <img src={logo} alt="logo.png" />
+        
+        <Button onClick=
+                      {
+                        e => {
+                          e.preventDefault()
+
+                          swal("متاكد عايز تخرج ياخويا؟؟", {
+                            dangerMode: true,
+                            buttons: {
+                              Ok: "OK",
+                              cancel: "Cancel"
+                            }
+                          })
+                            .then((value) => {
+                              switch (value) {
+                                case "Ok":
+                                  firebase.auth().signOut();
+                                  swal(" طب ياعم ماشوفش وشك تاني  ", " ", "success");
+                                  break
+
+                                default:
+                                  swal(" اوكاي خلاص خليك ")
+                              }
+
+                            })
+                        }
+                      }
+                        id="btn-logout" > تسجيل خروج
+                                           </Button>
+      </nav>
+      
+      <AppBar position="static" id="nav">
+
         <Tabs
           value={value}
           onChange={handleChange}
@@ -69,19 +108,23 @@ export default function ScrollableTabsButtonAuto() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-        <NavLink className="nav-link_IT" exact to='/'><Tab id="tab" label="العملاء" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/delivery'><Tab  id="tab" label="المناديب" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/order'><Tab id="tab" label="الاوردرات" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/FilterBy'><Tab id="tab" label="بحث بالتاريخ" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/FilterByClient'><Tab id="tab" label="بحث بالعميل" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/Search'><Tab id="tab" label="بحث" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/ChooseDelivert'><Tab id="tab" label="توزيع اوردرات" /></NavLink>
-        <NavLink className="nav-link_IT" exact to='/DeliveryOrders'><Tab id="tab" label="حساب المناديب" /></NavLink>
-        {/* <NavLink className="nav-link_IT" exact to='/clientProfile'><Tab label="7esab el 3amel" /></NavLink> */}
-        <NavLink className="nav-link_IT" exact to='/Calc'><Tab id="tab" label="حساب العملاء" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/'><Tab id="tab" label="العملاء" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/delivery'><Tab id="tab" label="المناديب" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/order'><Tab id="tab" label="الاوردرات" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/FilterBy'><Tab id="tab" label="بحث بالتاريخ" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/FilterByClient'><Tab id="tab" label="بحث بالعميل" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/Search'><Tab id="tab" label="بحث" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/ChooseDelivert'><Tab id="tab" label="توزيع اوردرات" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/DeliveryOrders'><Tab id="tab" label="حساب المناديب" /></NavLink>
+          {/* <NavLink className="nav-link_IT" exact to='/clientProfile'><Tab label="7esab el 3amel" /></NavLink> */}
+          <NavLink className="nav-link_IT" exact to='/Calc'><Tab id="tab" label="حساب العملاء" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/Discarded'><Tab id="tab" label=" المرتجعات" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/calcCards'><Tab id="tab" label=" دفتر العملاء" /></NavLink>
+          <NavLink className="nav-link_IT" exact to='/moreOrders'><Tab id="tab" label="دفتر المناديب" /></NavLink>
+
         </Tabs>
       </AppBar>
-      
+
     </div>
   );
 }

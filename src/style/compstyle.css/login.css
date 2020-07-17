@@ -1,0 +1,119 @@
+#bglogin{
+    min-height: 100vh;
+    background-size: cover;
+}
+
+
+.login-head-Tm{
+    font-family: 'El Messiri';
+    font-family: 'Tajawal';
+
+
+    
+}
+
+
+
+
+.login-container-Tm{
+    text-align: center;
+    color:tomato;
+    background: rgba(255, 228, 170, 0.856);
+    padding: 1rem 4rem;
+    animation: formContainer 1.75s ease-out;
+    border-radius: 30px;
+}
+
+.login-error-Tm{
+    color: red;
+    font-size: 13px;
+    text-align: right;
+    font-family: 'Tajawal';
+}
+
+#link{
+    text-decoration: none;
+}
+
+
+
+#outlined-basic{
+    font-family: 'Tajawal';
+}
+#outlined-basic2{
+    font-family: 'Tajawal';
+}
+#cont-textfield{
+    margin-bottom: 30px;
+}
+
+
+
+#btn-logout{
+    border-radius: 10px;
+    color: wheat;
+    text-align: center;
+    text-decoration: none;
+    width: 120px;
+    height:50px;
+    font-family: 'El Messiri', gilroy;   
+    position: absolute;
+    right:0px;
+    top:55px;
+    font-size: 18px;
+
+}
+#btn-logout:hover{
+    background-color: rgb(73, 65, 109);
+    transition: 0.2;
+}
+
+
+
+#btn-login{
+    font-family: 'Tajawal';
+    background-color: tomato;
+    color: wheat;
+    text-align: center;
+    text-decoration: none;
+    width: 200px;
+    height:50px;
+    margin-top:30px;
+    font-size: 20px;
+
+}
+#btn-login:hover{
+    background-color: rgb(146, 67, 52);
+    transition: 0.5s;
+
+
+}
+
+
+
+#contcont{
+    position: absolute;
+    bottom: 70px;
+}
+
+/* logo styling */
+
+#contnav{
+    height: auto;
+    text-align: left;
+}
+#contlogo{
+   
+
+}
+
+
+
+#contnavxs{
+    text-align: center;
+}
+#contlogoxs{
+    width: 60%;
+    text-align: center;
+    height: auto;
+}

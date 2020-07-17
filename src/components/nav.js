@@ -18,7 +18,7 @@ export default function Nav() {
 
   return (
     <Paper>
-      
+
       <Tabs
         onChange={handleChange}
         indicatorColor="primary"
@@ -37,6 +37,7 @@ export default function Nav() {
         <NavLink className="nav-link_IT" exact to='/DeliveryOrders'><Tab label="حساب المناديب" /></NavLink>
         {/* <NavLink className="nav-link_IT" exact to='/clientProfile'><Tab label="7esab el 3amel" /></NavLink> */}
         <NavLink className="nav-link_IT" exact to='/Calc'><Tab label="حساب العملاء" /></NavLink>
+        <NavLink className="nav-link_IT" exact to='/moreOrders'><Tab label="دفتر المناديب" /></NavLink>
 
 
       </Tabs>

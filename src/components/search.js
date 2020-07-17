@@ -59,7 +59,7 @@ export default class Search extends React.Component {
 
                 </Container>
 
-                <Table orders={this.state.filteredOrders} />
+                <Table delete={false} orders={this.state.filteredOrders}  />
             </div>
         )
     }

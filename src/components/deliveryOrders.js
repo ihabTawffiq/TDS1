@@ -19,6 +19,25 @@ import green from '@material-ui/core/colors/green';
 import swal from 'sweetalert';
 import Container from '@material-ui/core/Container';
 import '../style/base.css'
+import Modal from '@material-ui/core/Modal';
+import firebase from '../services/firebase';
+import { fromUnixTime } from 'date-fns';
+const functions = firebase.functions()
+const updateOrderFunction = functions.httpsCallable("updateOrder")//Update el state bta3et el order elle wad7a aslan mn om l esm
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
 
 const useStyles = makeStyles(theme => ({
     formControl: {
@@ -42,6 +61,15 @@ const useStyles = makeStyles(theme => ({
         minWidth: 200,
 
     },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+
 }));
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -76,22 +104,42 @@ export default function CustomizedTables() {
     const [far2sha7n, setfar2sha7n] = useState(0)
     const [total, settotal] = useState(0)
     const [teet, setTeet] = useState(0)
+    const [calcFinish, setCalcFinish] = useState(false)
     const [modID, setModID] = useState(0)
     const [selectValue, setseletvalue] = useState(0)
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(true);
+    const [hide, setHide] = useState(true)
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(true);
+    };
+    const handleClose12 = () => {
+        setOpen(false);
+    };
+    const [goz2iState, setGoz2iState] = React.useState(true);
+
     useEffect(() => {
 
-    }, [far2sha7n])
+    }, [far2sha7n, goz2iState])
+    //handel select delivery's order
+
     const handleChange = event => {
+
         setDelivery(event.target.value);
         db.collection("orders").where("state", "==", 0).where("delivery", "==", event.target.value)
             .get().then(function (querySnapshot) {
                 var orders = [];
                 let tot = total
                 let btnSS = "btnState"
+
                 querySnapshot.forEach(function (doc) {
                     let data = doc.data()
                     data[btnSS] = false
-                    data["done"] = false
+                    data["done12"] = false
                     data["ID"] = doc.id
 
                     orders.push(data);
@@ -108,7 +156,7 @@ export default function CustomizedTables() {
                 settotal(tot)
                 console.log(delivery)
             });
-
+        setCalcFinish(false)
     };
 
     useEffect(() => {
@@ -123,6 +171,7 @@ export default function CustomizedTables() {
                 setDeliverys(delivery);
             })
             .catch(error => console.log(error));
+
     }, [])
 
 
@@ -198,71 +247,160 @@ export default function CustomizedTables() {
     //             })
     //     }
     // }
-
+    //                      70
+    ///                     71
     function handleChange12(row, event) {
+
         const form = document.querySelector('#ddss');
+      
         row.done = true
-        setcomment(form.comment.value)
-
+        const comment21 = row.order_id.toString() + "comment"
+        const comment222 = document.getElementById(comment21).value 
+        setcomment(comment222)
+        console.log('lolo',comment222 );
+        let old_price = row.price
+        let mortaga3_price = 0
+        let price_temp = 0
         if (selectValue !== 0) {
-
+            let delivery_clc = 0;
+            let client_clc = 0;
             row.state = selectValue;
             row.btnState = true
             let tot1 = total
-            if (selectValue === 1) {
-                if (row.order_id === modID) {
-                    tot1 -= far2sha7n
-                }
+            /***********Sha7n 3ala el rasel***************/
+            if (selectValue === 3) {
+                const name1 = row.order_id.toString() + "far2Sha7n"
+                const far2sha7ntet = +document.getElementById(name1).value
 
-                tot1 -= +(row.far2Sha7n)
+                delivery_clc += 0
+                client_clc += row.shipping
+                tot1 -= +(far2sha7ntet)
                 tot1 -= +(row.shipping)
+                tot1 -= +(row.price)
+                price_temp = old_price
 
-            } else if (selectValue === 2) {
-
-
-                if (row.order_id === modID) {
-                    tot1 -= far2sha7n
-                }
-
-                tot1 -= +(row.far2Sha7n)
+            }//*************La8i************  
+            else if (selectValue === 2) {
+                delivery_clc += 0
+                client_clc += 0
                 tot1 -= +(row.price)
                 tot1 -= +(row.shipping)
-            } else if (selectValue === 3) {
+                price_temp = old_price
 
-
-                if (row.order_id === modID) {
-                    tot1 -= far2sha7n
-                }
-
-                tot1 -= +(row.far2Sha7n)
-
-                tot1 -= +(0)
-            } else if (selectValue === 4) {
-
-
-                if (row.order_id === modID) {
-                    tot1 -= far2sha7n
-                }
-
-                tot1 -= +(row.far2Sha7n)
-                tot1 -= +(row.price)
             }
+            // ***************tam*********
+            else if (selectValue === 1) {
+                client_clc += 0
+                delivery_clc += +row.price
+                delivery_clc += +row.shipping
+                if (row.order_id === modID) {
+                    tot1 -= far2sha7n
+
+
+                }
+                const name1 = row.order_id.toString() + "far2Sha7n"
+                const far2sha7ntet = +document.getElementById(name1).value
+
+                tot1 -= +(far2sha7ntet)
+                delivery_clc -= +(far2sha7ntet) | 0
+                client_clc += +(far2sha7ntet) | 0
+                tot1 -= +(0)
+                price_temp = old_price
+            }
+            //tam daf3 el sha7n
+            else if (selectValue === 4) {
+                const name1 = row.order_id.toString() + "far2Sha7n"
+                const far2sha7ntet = +document.getElementById(name1).value
+                delivery_clc += +row.shipping
+                delivery_clc -= +(far2sha7ntet) | 0
+                client_clc += 0
+
+
+                tot1 -= +(far2sha7ntet)
+                tot1 -= +(row.price)
+                price_temp = old_price
+            }
+            // mortaga3 goz2i
+
+            else if (selectValue === 5) {
+                setGoz2iState(false)
+                delivery_clc += +row.price
+                const name11 = row.order_id.toString() + "goz2ii"
+                const mortaga3 = +document.getElementById(name11).value
+                const name1 = row.order_id.toString() + "far2Sha7n"
+                const far2sha7ntet = +document.getElementById(name1).value
+                delivery_clc -= +mortaga3
+                delivery_clc += +row.shipping
+                // delivery_clc -= +(form.far2Sha7n.value) | 0
+                delivery_clc -= far2sha7ntet | 0
+                client_clc += +mortaga3
+
+                client_clc += far2sha7ntet | 0
+                console.log("7essssaaaaasssaas", delivery_clc, client_clc)
+                //mortaga3_price = +form.goz2ii.value;
+
+
+                tot1 -= +(far2sha7ntet)
+
+                tot1 -= (mortaga3)
+                price_temp = old_price - mortaga3
+            }
+
+            /* else if (selectValue === 5) {
+                 if (row.order_id === modID) {
+                     tot1 -= far2sha7n
+                 }
+ 
+                 tot1 -= +(row.far2Sha7n)
+ 
+                 tot1 -= +(gozdata.price.value)
+                 tot1 -= +(gozdata.shipping.value)
+                 db.collection("orders").where("order_id", "==", row.order_id)
+                     .onSnapshot(function (querySnapshot) {
+                         querySnapshot.forEach(function (doc) {
+                             db.collection('orders').doc(doc.id).update({
+                                 price: gozdata.price.value,
+                                 shipping: gozdata.shipping.value
+                             })
+                         })
+                     })
+ 
+             }*/
             settotal(tot1)
-            db.collection("orders").where("state", "==", 0)
-                .onSnapshot(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
-                        if (doc.data().order_id === row.order_id) {
 
-                            db.collection('orders').doc(doc.id).update({
-                                state: selectValue,
-                                comment: comment,
-                                far2Sha7n: far2sha7n
-                            })
 
-                        }
-                    });
+            swal(
 
-                })
+                {
+                    text: "جاري انهاء الاوردر" + "برجاء الانتظار ....",
+                    buttons: false,
+                    closeOnClickOutside: false,
+
+                }
+            );
+            setseletvalue(-2)
+
+            const name122 = row.order_id.toString() + "far2Sha7n"
+            const far2sha7ntet22 = +document.getElementById(name122).value
+            updateOrderFunction({
+                idtt: row.order_id,
+                state: selectValue,
+                comment: comment222.toString(),
+                far2Sha7n: far2sha7ntet22 | 0,
+                price: +price_temp,//price_mor
+                old_price: +old_price,
+                delivery_clc: delivery_clc,
+                client_clc: client_clc
+
+            }).then((response) => {
+
+
+                swal("تم تقفيل حساب اوردر", "...", "success");
+
+
+            })
+
+
 
 
         }
@@ -280,8 +418,43 @@ export default function CustomizedTables() {
 
         }
 
-
+        setOpen(false);
     };
+    function handleChangeDelivery() {
+        const form = document.querySelector("#deliveryCalc")
+        const calcDay = +form.deliverydayCalc.value
+        db.collection('delivery').where('name', '==', delivery)
+            .get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    let flag = true
+                    const calc = doc.data().calc
+                    calc.forEach(day1 => {
+                        if (moment(new Date()).format('L') === day1.day && flag) {
+                            day1.total += calcDay
+                            flag = false
+                        }
+
+                    })
+                    if (flag) {
+                        calc.push({ "day": moment(new Date()).format('L'), total: calcDay })
+                    }
+
+
+
+                    db.collection('delivery').doc(doc.id).update({
+                        calc: calc
+                    })
+
+
+                });
+
+            })
+        setCalcFinish(true)
+        let msg = "حساب المندوب :  " + delivery + calcDay
+        swal("تم انهاء حساب المندوب ", msg, "success");
+
+
+    }
     function handelSelecctkhara(e) {
         setseletvalue(e.target.value)
     }
@@ -368,16 +541,18 @@ export default function CustomizedTables() {
 
 
                                         <form onSubmit={(e) => handleChange12(row, e)} id="ddss">
-                                            <TextField id="outlined-basic4" label="تعليق" variant="outlined" name="comment" />
+                                            <TextField className="outlined-basic4" id={row.order_id.toString() + "comment"} label="تعليق" variant="outlined" name={row.order_id.toString() + "comment"} type="text" />
+                                            <TextField className="outlined-basic4" id={row.order_id.toString() + "goz2ii"} label="السعر" variant="outlined" name={row.order_id.toString() + "goz2ii"} type="number" />
                                             {+(row.far2Sha7n) !== 0
-                                                ? < TextField InputProps={{ readOnly: true, }} id="outlined-basic4" variant="outlined" type="number" label="فرق شحن" name="far2Sha7n" value={row.far2Sha7n} required />
-                                                : <TextField id="outlined-basic4" type="number" variant="outlined" label="فرق شحن" name="far2Sha7n" onChange={(e) => handelFar2Sha7n(row, e)} />
+                                                ? < TextField className="outlined-basic4" InputProps={{ readOnly: true, }} id="outlined-basic4" variant="outlined" type="number" label="فرق شحن" name="far2Sha7n" value={row.far2Sha7n} required />
+                                                : <TextField className="outlined-basic4" id={row.order_id.toString() + "far2Sha7n"} type="number" variant="outlined" label="فرق شحن" name={row.order_id.toString() + "far2Sha7n"} onChange={(e) => handelFar2Sha7n(row, e)} />
+
                                             }
 
 
 
                                             <Select disabled={row.btnState}
-                                                labelId="demo-simple-select-outlined-label"
+                                                labelId={row.order_id.toString() + "demo-simple-select-outlined-label"}
                                                 id="outlined"
                                                 name="selectt"
                                                 onChange={handelSelecctkhara}
@@ -388,40 +563,73 @@ export default function CustomizedTables() {
                                                 <MenuItem value={row.state}>
                                                     لا شيء
                                         </MenuItem>
-                                                <MenuItem value={3} name="tawsel">
-                                                    <Button disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
+                                                <MenuItem value={1} name="tawsel">
+                                                    <Button className="btndone" disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
                                                         تم التوصيل
                                             </Button>
                                                 </MenuItem>
-                                                <MenuItem value={1} name="sha7nRasel">
-                                                    <Button disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
+                                                <MenuItem value={3} name="sha7nRasel">
+                                                    <Button className="btndone" disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
                                                         شحن علي الراسل
                                             </Button>
                                                 </MenuItem>
                                                 <MenuItem value={4} name="daf3Sha7n">
-                                                    <Button disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
+                                                    <Button className="btndone" disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
                                                         تم دفع الشحن
                                             </Button>
                                                 </MenuItem>
                                                 <MenuItem value={2} name="la8i">
-                                                    <Button id="btn" disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
+                                                    <Button className="btndone" disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
                                                         لاغي
                                             </Button>
                                                 </MenuItem>
 
 
+                                                <MenuItem value={5} name="goz2i">
+                                                    <Button className="btndone" disabled={row.btnState} variant="contained" color="primary" onClick={handelBtn}>
+                                                        مرتجع جزئي
+                                            </Button>
+                                                </MenuItem>
                                             </Select>
+                                            {/*
+                                                <MenuItem value={5} name="goz2i">
+                                                    <Button disabled={row.btnState} variant="contained" color="primary" type="button" onClick={handleOpen}>
+                                                        جزئي
+                                            </Button>
+
+                                                </MenuItem>
+                                            */}
+
 
 
                                             {/* <Button variant="contained" color="primary" component="span" value={3}
                                         onClick={(e) =>handleChange(row,e)} >
                                         done             
                                     </Button> */}
-                                            <Button id="btndone" variant="contained" color="primary" disabled={row.done} onClick={(e) => handleChange12(row, e)}>
+                                            <Button className="btndone" id={row.order_id} variant="contained" color="primary" disabled={row.done} onClick={(e) => handleChange12(row, e)}>
                                                 تم
                                             </Button>
 
-
+                                            {/*  <Modal
+                                                aria-labelledby="simple-modal-title"
+                                                aria-describedby="simple-modal-description"
+                                                open={open}
+                                                onClose={handleClose}
+                                            >
+                                                <div style={modalStyle} className={classes.paper}>
+                                                    <h2 id="simple-modal-title">عدل بيانات الاوردر</h2>
+                                                    <form className="goz2ii-data">
+                                                        <TextField className={classes.root} id="outlined-basic2" label="السعر" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="price" required />
+                                                        <TextField className={classes.root} id="outlined-number" label="سعر الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="shipping" required />
+                                                        <Button id="btndone" variant="contained" color="primary" disabled={row.done12} onClick={(e) => handleChange12(row, e)}>
+                                                            تم
+                                                        </Button>
+                                                        <Button id="close" variant="contained" color="secondary" disabled={row.done12} onClick={handleClose12} >
+                                                            الغاء
+                                                        </Button>
+                                                    </form>
+                                                </div>
+                                          </Modal>*/}
                                         </form>
                                     </Container>
                                 </StyledTableCell>
@@ -429,9 +637,19 @@ export default function CustomizedTables() {
 
                             </StyledTableRow>
                         ))}
+
                     </TableBody>
+
                 </Table>
+                <form id="deliveryCalc">
+                    <TextField id="outlined-basic6" label="حساب المندوب" variant="outlined" name="deliverydayCalc" type="number" />
+
+                    <Button className="btndone" disabled={calcFinish} id="btn123456789" variant="contained" color="primary" onClick={handleChangeDelivery}>
+                        تم
+            </Button>
+                </form>
             </TableContainer>
+
         </div >
     );
 }

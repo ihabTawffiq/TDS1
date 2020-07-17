@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import ClientSheet from './client-sheet';
 import '../style/base.css';
 import PropTypes from 'prop-types';
-
+import swal from "sweetalert";
 
 
 const styles = theme => ({
@@ -76,6 +76,8 @@ class Client extends React.Component {
           total: 0
         }]
       })
+    let msg = "تم اضافة عميل :  " + form.name.value
+    swal("تم اضافة عميل ", msg, "success");
     form.name.value = '';
     form.mobile.value = '';
     form.region.value = '';

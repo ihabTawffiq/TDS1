@@ -12,6 +12,9 @@ import ChooseDelivert from './components/addorderfordelivery';
 import DeliveryOrders from './components/deliveryOrders';
 import clientProfile from './components/selectClient';
 import Calc from './components/calc';
+import Discarded from './components/discarded'
+import calcCards from './components/calc-cards'
+import moreOrders from './components/more-orders'
 import './style/base.css';
 
 
@@ -24,7 +27,7 @@ class App extends Component {
       // <div>
       //   <Order/>
       //   <Calc/>
-        
+
       // </div>
 
       <BrowserRouter>
@@ -41,6 +44,10 @@ class App extends Component {
           <Route exact path='/DeliveryOrders' component={DeliveryOrders} />
           <Route exact path='/clientProfile' component={clientProfile} />
           <Route exact path='/Calc' component={Calc} />
+          <Route exact path='/Discarded' component={Discarded} />
+          <Route exact path='/CalcCards' component={calcCards} />
+          <Route exact path='/moreOrders' component={moreOrders} />
+
 
 
         </div>

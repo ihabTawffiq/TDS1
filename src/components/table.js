@@ -72,7 +72,7 @@ export default function CustomizedTables(props) {
                                 {row.order_id}
                             </StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.client}</StyledTableCell>
-                            <StyledTableCell id="cell" align="right">{moment(row.date.toDate()).format('l')}</StyledTableCell>
+                            <StyledTableCell id="cell" align="right">{moment(row.date.toDate()).format('LL')}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.price}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.shipping}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.far2Sha7n || "0"}</StyledTableCell>

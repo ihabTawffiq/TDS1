@@ -15,9 +15,12 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CardCalc from './cards';
 import '../style/base.css'
+import swal from "sweetalert";
+import green from '@material-ui/core/colors/green';
 
-
-
+import firebase from '../services/firebase';
+const functions = firebase.functions()
+const finishClientCalc = functions.httpsCallable("finishClientCalc")
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -35,15 +38,47 @@ const StyledTableRow = withStyles(theme => ({
             backgroundColor: theme.palette.background.default,
         },
     },
+
+
 }))(TableRow);
 
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 700,
     },
-});
+    formControl: {
+        margin: "0 auto",
+        minWidth: 100,
+
+    },
+    formCell: {
+        margin: theme.spacing(200),
+        minWidth: 100,
+
+    },
+    formtext: {
+        margin: theme.spacing(1),
+
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2), color: green
+    },
+    table: {
+        minWidth: 200,
+
+    },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+
+}));
 
 export default function TableC(props) {
 
@@ -62,24 +97,16 @@ export default function TableC(props) {
 
     useEffect(() => {
         let tot = 0
-        rows.forEach(ro => { tot += +(ro.price) + +(ro.far2Sha7n) })
-
+        rows.forEach(ro => { tot += +(ro.price) - +(ro.far2Sha7n) })
         db.collection("clients").where("name", "==", client)
             .get().then(function (querySnapshot) {
-
                 querySnapshot.forEach(function (doc) {
                     const totalCalc = doc.data().totalCalc || []
-                    totalCalc.forEach(element => {
-                        if (moment(element.day.toDate()).format('l') === moment(new Date()).format('l')) {
-                            console.log(element.dof3a)
-                            setDof3a(element.dof3a)
-                        }
-                    });
+                    setDof3a(doc.data().dof3a)
                     setOrders(totalCalc)
                 });
             });
         setTotal(tot);
-        console.log(tot)
         setBtnState(false)
     }, [client, rows])
 
@@ -90,7 +117,7 @@ export default function TableC(props) {
         rows.forEach(row => {
 
             // da 47n 3la el rasel w bgm3 el price m3 shipping
-            if (row.state === 1) {
+            if (row.state === 3) {
                 total1 -= (+(row.price) + +(row.shipping))
 
                 // da la8i w bgm3 s3r el 47n
@@ -99,7 +126,7 @@ export default function TableC(props) {
 
 
                 // Done
-            } else if (row.state === 3) {
+            } else if (row.state === 1 || row.state === 5) {
                 total1 -= 0
 
             }
@@ -110,6 +137,7 @@ export default function TableC(props) {
             }
 
             setTotal(total1 - dof3a);
+
             console.log(total)
         })
 
@@ -121,35 +149,57 @@ export default function TableC(props) {
                     let i = 0;
 
                     totalCalc.forEach(bob => {
-                        console.log(moment(bob.day.toDate()).format('l'), moment(new Date()).format('l'))
-                        if (moment(bob.day.toDate()).format('l') === moment(new Date()).format('l')) {
-                            console.log(bob.dof3a)
-                            setDof3a(bob.dof3a)
-                            bob.total = total - dof3a
-                            console.log('Matgm3 b2a yasta')
-                        } else {
-                            i++;
-                        }
+
+
+                        setDof3a(doc.data().dof3a)
+                        const dd = +(doc.data().dof3a)
+
+                        bob.total = total - dd
                     })
-                    console.log(i, totalCalc.length)
-                    if (i === totalCalc.length) {
+                    swal(
 
-                        totalCalc.push({
-                            day: new Date(),
-                            total: total,
-                            dof3a: 0
+                        {
+                            text: "جاري انهاء الحساب " + "برجاء الانتظار ....",
+                            buttons: false,
+                            closeOnClickOutside: false,
+
+                        }
+                    );
+                    finishClientCalc({
+                        total: total,
+                        done: true,
+                        client: client,
+                        orders: rows
+                    })
+                        .then((response) => {
+
+
+                            swal("تم تقفيل حساب اوردر", "...", "success");
+
                         })
-
-                    }
-
+                    totalCalc.push({
+                        day: new Date(),
+                        total: total,
+                        done: true,
+                        client: client
+                    })
                     db.collection('clients').doc(doc.id).update({ totalCalc: totalCalc })
+
 
                     setOrders(totalCalc)
 
                 });
 
             });
-
+        //Update the state of orders to finshed calculations
+        // rows.forEach(order => {
+        //     db.collection("orders").where("order_id", "==", order.order_id)
+        //         .onSnapshot(function (querySnapshot) {
+        //             querySnapshot.forEach(function (doc) {
+        //                 db.collection('orders').doc(doc.id).update({ done: true })
+        //             })
+        //         })
+        // })
 
         setBtnState(true)
     }
@@ -189,9 +239,13 @@ export default function TableC(props) {
                             <StyledTableCell id="cell" align="right">{row.comment || "لا يوجد تعليق"}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{row.far2Sha7n}</StyledTableCell>
                             <StyledTableCell id="cell" align="right">{
-                                row.state === 1 ? "شحن علي الراسل" : row.state === 2 ? "لاغي"
-                                    : row.state === 3 ? "تم التوصيل"
-                                        : row.state === 4 ? "تم دفع الشحن" : row.state
+                                row.state === 3 ? "شحن علي الراسل"
+                                    : row.state === 2 ? "لاغي"
+                                        : row.state === 1 ? "تم التوصيل"
+                                            : row.state === 5 ? "مرتجع جزئي"
+                                                : row.state === 4 ? "تم دفع الشحن"
+                                                    : row.state === 5 ? "مرتجع جزئي"
+                                                        : row.state
                             }</StyledTableCell>
 
                         </StyledTableRow>

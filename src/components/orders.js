@@ -6,10 +6,13 @@ import Table from "./table";
 import '../style/base.css'
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import swal from "sweetalert";
 import moment from 'moment';
+import swal from "sweetalert";
+import swal2 from "sweetalert2";
 import Container from '@material-ui/core/Container';
-
+import { connect } from 'react-redux'
+import { addOrder } from '../store/actons/addOrder'
+import firebase from '../services/firebase';
 
 const styles = theme => ({
   root: {
@@ -18,28 +21,30 @@ const styles = theme => ({
 
   },
 });
-
-
+const functions = firebase.functions()
+const addOrderFunction = functions.httpsCallable("addOrder")
+const addDof3aFunction = functions.httpsCallable("addDof3a")
 
 class Order extends React.Component {
 
-
   state = {
+
     shipping: null,
     mobile: null,
     price: null,
     order: [],
     adress: null,
-    order_id: 0,
     dayOrders: [],
-    day: new Date(),
     clients: [],
     client: "اختار عميل",
     btnState: false,
     dof3a: 0,
-    far2Sha7n: 0
+    far2Sha7n: 0,
+    data: {}
+
 
   };
+
 
 
 
@@ -67,16 +72,14 @@ class Order extends React.Component {
           data["IDss"] = doc.id
           orders.push(data);
         });
-        const order_id = maxID
         orders.sort((a, b) => {
-          if (a.order_id > b.order_id) {
+          if (a.date > b.date) {
             return -1
           } else
             return 1
         })
         this.setState({
           order: orders,
-          order_id: Number(order_id)
         });
       })
 
@@ -90,23 +93,49 @@ class Order extends React.Component {
       && form.shipping.value !== "" && this.state.client !== ""
       && this.state.client !== "اختار عميل" && form.far2Sha7n.value !== "") {
 
-      let numberOfCurrentOrders = Number(this.state.numberOfCurrentOrders)
-      numberOfCurrentOrders++
+
       e.preventDefault();
-      db.collection('orders')
-        .add({
-          delivery: null,
-          client: this.state.client,
-          adress: form.adress.value,
-          mobile: form.mobile.value,
-          price: form.price.value,
-          shipping: form.shipping.value,
-          far2Sha7n: +(form.far2Sha7n.value),
-          date: new Date(),
-          order_id: Number(this.state.order_id) + 1,
-          clientName: form.clientName.value,
-          state: -1
-        })
+
+      // this.props.addOrder({
+      //   delivery: null,
+      //   client: this.state.client,
+      //   adress: form.adress.value,
+      //   mobile: form.mobile.value,
+      //   price: form.price.value,
+      //   shipping: form.shipping.value,
+      //   far2Sha7n: +(form.far2Sha7n.value),
+      //   date: new Date(),
+      //   order_id: Number(this.state.order_id) + 1,
+      //   clientName: form.clientName.value,
+      //   state: -1,
+      //   done: false
+
+      // })
+      swal(
+
+        {
+          text: "جاري اضافة الاوردر" + "برجاء الانتظار ....",
+          buttons: false,
+          closeOnClickOutside: false,
+
+        }
+      );
+      addOrderFunction({
+        client: this.state.client,
+        adress: form.adress.value,
+        mobile: form.mobile.value,
+        price: form.price.value,
+        shipping: form.shipping.value,
+        far2Sha7n: +(form.far2Sha7n.value),
+        clientName: form.clientName.value
+
+      }).then((response) => {
+
+
+        swal("تم اضافة اوردر", "...", "success");
+
+      })
+
       /*
             db.collection('orders')
       
@@ -132,18 +161,10 @@ class Order extends React.Component {
                 });
               })
       */
-      this.setState({
-        order_id: Number(this.state.order_id) + 1,
-        numberOfCurrentOrders: numberOfCurrentOrders,
-      })
+
     } else if (this.state.client === "اختار عميل" || this.state.client === "") {
 
-      swal("ماتختار يابني العميل ... ماصباح الفل بقي", {
-        dangerMode: true,
-        buttons: {
-          Ok: "ماشي لامواخذة نسيت"
-        }
-      })
+      swal("يادي النيلة...", "ماتختار يابني العميل ... ماصباح الفل بقي", "error")
     } else if (form.price.value === "") {
 
       swal("اباااا حط السعر  بقي ماتتعبوناش معاكم", {
@@ -174,84 +195,97 @@ class Order extends React.Component {
   };
 
   handelSelectClient = (e) => {
-    let dof = 0
+    let d = 0
     db.collection('clients').where('name', '==', e.target.value)
       .get().then(snapshot => {
         snapshot.forEach(doc => {
-          const totalCalc = doc.data().totalCalc;
-          totalCalc.forEach(bob => {
-            if (moment(bob.day.toDate()).format('l') === moment(new Date()).format('l')) {
-              dof = +(bob.dof3a)
-              this.setState({
-
-                dof3a: +(bob.dof3a),
-                btnState: false
-              })
-              console.log("ssss", dof)
-            }
-          })
-        });
+          d = doc.data().dof3a
+        })
       })
+
+
 
     this.setState({
       client: e.target.value,
-      dof3a: dof,
+      dof3a: d,
       btnState: false
     })
   }
-
+  finishDof3a = (e) => {
+    db.collection("clients").where("name", "==", this.state.client)
+      .get().then(snapshot => {
+        snapshot.forEach(doc => {
+          db.collection('clients').doc(doc.id).update({ dof3a: 0 })
+        })
+      })
+  }
   addDof3a = (e) => {
     const form = document.querySelector('#add2');
+    let dof11 = +form.dof3a.value
     db.collection("clients").where("name", "==", this.state.client)
-      .get().then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          const totalCalc = doc.data().totalCalc || []
-          let i = 0;
+      .get().then(snapshot => {
+        snapshot.forEach(doc => {
+          dof11 += doc.data().dof3a
+          db.collection('clients').doc(doc.id).update({ dof3a: dof11 })
+        })
+      })
 
-          totalCalc.forEach(bob => {
+    // .then(function (querySnapshot) {
+    //   querySnapshot.forEach(function (doc) {
+    //     const totalCalc = doc.data().totalCalc || []
+    //     let i = 0;
 
-            if (moment(bob.day.toDate()).format('l') === moment(new Date()).format('l')) {
-              bob.dof3a += +(form.dof3a.value)
+    //     totalCalc.forEach(bob => {
 
-            } else {
-              i++;
-            }
-          })
+    //       if (moment(bob.day.toDate()).format('l') === moment(new Date()).format('l')) {
+    //         bob.dof3a += +(form.dof3a.value)
 
-          if (i === totalCalc.length) {
+    //       } else {
+    //         i++;
+    //       }
+    //     })
 
-            totalCalc.push({
-              day: new Date(),
-              total: 0,
-              dof3a: +(form.dof3a.value)
-            })
+    //     if (i === totalCalc.length) {
 
-          }
+    //       totalCalc.push({
+    //         day: moment(new Date()).format('L'),
+    //         total: 0,
+    //         dof3a: +(form.dof3a.value)
+    //       })
 
-          db.collection('clients').doc(doc.id).update({ totalCalc: totalCalc })
-        });
+    //     }
+
+    //     db.collection('clients').doc(doc.id).update({ totalCalc: totalCalc })
+    //   });
 
 
-      });
+    // });
     this.setState({
+      dof3a: dof11,
       btnState: true,
-      dof3a: this.state.dof3a + +(form.dof3a.value)
+
     })
+    let msg = " تم اضافة دفعة بملغ " + form.dof3a.value + " للعميل : " + this.state.client
+
+    swal("تم اضافة دفعة!", msg, "success");
   }
   render() {
     const { classes } = this.props;
-
+    console.log("Redux Test", this.props)
 
     return (
       <div className="FormField">
 
         <select name='client' value={this.state.client} onChange={this.handelSelectClient} required >
           <option value="">{this.state.client}</option>
-          {this.state.clients.map(cl => <option value={cl.name}>{cl.name}</option>)}
+          {this.state.clients.map(cl => {
+
+            return <option value={cl.name}>{cl.name + " : " + cl.dof3a}</option>
+          })}
         </select>
-        <h1>الدفعات الحالية ل{this.state.client === "اختار عميل" ? "..." : this.state.client} : {this.state.dof3a}</h1>
+
         <form id="add2" onSubmit={this.addDof3a}>
-          {console.log(this.state.dof3a)}
+
           <TextField
             id="outlined-basic2"
             label="دفعة"
@@ -266,15 +300,17 @@ class Order extends React.Component {
           <Button id="btnorder2" variant="contained" color="primary" onClick={this.addDof3a} disabled={this.state.btnState}>
             إضافة دفعة
           </Button>
+          <Button id="btnorder2" variant="contained" color="primary" onClick={this.finishDof3a} >
+            انهاء الدفعة
+        </Button>
         </form>
 
         <h1>  إضافة أوردر جديد </h1>
         <Container id="cont">
           <form id="add3" onSubmit={this.addOrder} key={Math.random()}>
-            <TextField className={classes.root} InputProps={{ readOnly: true, }} id="outlined-basic2" variant="outlined" label="ID" name="order_id" value={this.state.order_id + 1} required />
             <TextField className={classes.root} id="outlined-basic2" label="السعر" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="price" required />
             <TextField className={classes.root} id="outlined-number" label="سعر الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="shipping" required />
-            <TextField className={classes.root} id="outlined-basic2" defaultValue="0" label="فرق الشحن" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="far2Sha7n" required />
+            <TextField className={classes.root} id="outlined-basic7" defaultValue="0" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="far2Sha7n" required />
             <TextField className={classes.root} id="outlined-basic2" label="الموبايل" type="number" variant="outlined" InputLabelProps={{ shrink: true, }} name="mobile" required />
             <TextField className={classes.root} id="outlined-basic2" label="العنوان" variant="outlined" name="adress" required />
             <TextField className={classes.root} id="outlined-basic2" label="اسم العميل" variant="outlined" name="clientName" required />
@@ -296,4 +332,9 @@ class Order extends React.Component {
 Order.propTypes = {
   classes: PropTypes.object.isRequired,
 }
-export default withStyles(styles)(Order);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addOrder: (order) => dispatch(addOrder(order))
+  }
+}
+export default withStyles(styles)(connect(null, mapDispatchToProps)(Order));

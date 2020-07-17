@@ -3,12 +3,8 @@ import { db } from '../services/firebase';
 //import Table from "./table";
 import Button from '@material-ui/core/Button';
 import DateSelector from "./datecalc";
+import TableC from './table-calc'
 //import CardCalc from "./cards"
-
-
-
-
-
 import '../style/base.css'
 
 
@@ -23,7 +19,8 @@ class Calc extends React.Component {
         clients: [],
         client: "اختار العميل",
         filteredOrders: [],
-        IDDS: []
+        IDDS: [],
+        filteredclient: []
 
     };
 
@@ -35,6 +32,7 @@ class Calc extends React.Component {
                 const clients = [];
                 snapshot.forEach(doc => {
                     const data = doc.data();
+                    data["idts"] = doc.id;
                     clients.push(data);
                 });
                 this.setState({ clients: clients });
@@ -42,8 +40,7 @@ class Calc extends React.Component {
             })
             .catch(error => console.log(error));
 
-        db.collection('orders').where('state', '>', -1)
-
+        db.collection('orders').where('state', '>', 0).where('done', '==', false)
             .onSnapshot(snapshot => {
                 const orders = [];
                 const IDDS = [];
@@ -69,7 +66,11 @@ class Calc extends React.Component {
         const filteredOrders = this.state.order.filter(order => {
             return (order.client === this.state.client)
         })
+        const filteredclient = this.state.clients.filter(client => {
+            return (client.name === this.state.client)
+        })
         this.setState({ filteredOrders })
+        this.setState({ filteredclient })
 
 
     };
@@ -81,11 +82,9 @@ class Calc extends React.Component {
     }
     handelFilter = () => {
         const filteredOrders = this.state.order.filter(order => {
-            //   console.log(order.client, this.state.client)
             return (order.client === this.state.client)
         })
         this.setState({ filteredOrders })
-        // console.log(this.state.filteredOrders)
 
     }
     render() {
@@ -103,7 +102,11 @@ class Calc extends React.Component {
                     {this.state.clients.map(cl => <option value={cl.name}>{cl.name}</option>)}
                 </select>
                 </center>
+                <ul>
 
+
+
+                </ul>
                 <center>
 
                     <Button id="btnorder" variant="contained" color="secondary" onClick={this.handelFilter}>
@@ -111,7 +114,13 @@ class Calc extends React.Component {
                     </Button>
                 </center>
 
-                <DateSelector IDDS={this.state.IDDS} orders={this.state.filteredOrders} client={this.state.client} />
+                {/* // <DateSelector
+                //     IDDS={this.state.IDDS}
+                //     orders={this.state.filteredOrders}
+                //     client={this.state.client}
+                //     ihab="yasserr"
+               // />*/}
+                <TableC orders={this.state.filteredOrders} IDDS={this.state.IDDS} client={this.state.client} />
 
 
             </div >

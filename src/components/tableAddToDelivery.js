@@ -19,8 +19,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../services/firebase';
 import Container from '@material-ui/core/Container';
 import '../style/base.css'
-
-
+import swal from "sweetalert";
 
 
 
@@ -68,6 +67,7 @@ export default function CustomizedTables() {
     const [delivery, setDelivery] = useState('E5tar mandob')
     const [IDs, setIDs] = useState([])
     const [btnDisable, setBtnDisable] = useState(false)
+    const three_days = 3 * (24 * 60 * 60 * 1000);
 
 
     useEffect(() => {
@@ -151,25 +151,25 @@ export default function CustomizedTables() {
         <div>
 
 
-    <Container id="contselect">
-            <FormControl required className={classes.formControl}>
-                <InputLabel id="demo-simple-select-required-label">اختار المندوب</InputLabel>
-                <Select
-                    labelId="demo-simple-select-required-label"
-                    id="demo-simple-select-required"
-                    value={[deliverys][0].name}
-                    onChange={handleChange}
-                    className={classes.selectEmpty}
+            <Container id="contselect">
+                <FormControl required className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-required-label">اختار المندوب</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-required-label"
+                        id="demo-simple-select-required"
+                        value={[deliverys][0].name}
+                        onChange={handleChange}
+                        className={classes.selectEmpty}
                     >
-                    {deliverys.map(delivery => <MenuItem value={delivery.name}>{delivery.name}</MenuItem>)}
-                </Select>
-            </FormControl>
+                        {deliverys.map(delivery => <MenuItem value={delivery.name}>{delivery.name}</MenuItem>)}
+                    </Select>
+                </FormControl>
             </Container>
 
 
-                    <h1>ID بحث من خلال ال</h1>
+            <h1>ID بحث من خلال ال</h1>
             <Container id="contsearch">
-            <TextField id="outlined-basic" type="number" label="Order ID" variant="outlined" name="order_ID" onChange={handelSearch} />
+                <TextField id="outlined-basic" type="number" label="Order ID" variant="outlined" name="order_ID" onChange={handelSearch} />
 
             </Container>
 
@@ -191,29 +191,35 @@ export default function CustomizedTables() {
                     </TableHead>
                     <TableBody>
 
-                        {filterOrders.map(row => (
-                            <StyledTableRow key={[row.order_id]}>
-                                <StyledTableCell id="cell" component="th" scope="row">
-                                    {row.order_id}
-                                </StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{row.client}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{moment(row.date.toDate()).format('dddd')}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{row.price}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{row.shipping}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{row.adress}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{row.mobile}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">{row.clientName}</StyledTableCell>
-                                <StyledTableCell id="cell" align="right">
-                                    <Button onClick={(e) => handelAdd(row.order_id, e)}
-                                        variant="contained" id="btndelivery"
-                                        startIcon={<AddShoppingCartIcon />}
-                                        disabled={btnDisable}
+                        {filterOrders.map(row => {
+                            if (new Date() - row.date.toDate() >= three_days) {
+                                const days = Math.round((new Date() - row.date.toDate()) / (24 * 60 * 60 * 1000)) + " ايام "
+                                swal("اوبش...", "عندك اوردارات فات عليها " + days, "error");
+                            }
+                            return (
+                                <StyledTableRow key={[row.order_id]} className="red" >
+                                    <StyledTableCell id="cell" component="th" scope="row" >
+                                        {row.order_id}
+                                    </StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{row.client}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{moment(row.date.toDate()).format('LL')}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{row.price}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{row.shipping}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{row.adress}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{row.mobile}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">{row.clientName}</StyledTableCell>
+                                    <StyledTableCell id="cell" align="right">
+                                        <Button onClick={(e) => handelAdd(row.order_id, e)}
+                                            variant="contained" id="btndelivery"
+                                            startIcon={<AddShoppingCartIcon />}
+                                            disabled={btnDisable}
 
-                                    > إضافة
+                                        > إضافة
                                 </Button>
-                                </StyledTableCell>
-                            </StyledTableRow>
-                        ))}
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
